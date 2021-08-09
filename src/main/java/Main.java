@@ -23,9 +23,8 @@ public class Main {
 //        mergeFiles(directoryName, fileName1, fileName2, newFileName);
         String searchWord = "and";
 //        findWordInFile(directoryName, newFileName, searchWord);
-        findWordInDirectory(directoryName,searchWord);
-//        printDir(directoryName,"",false);
-
+//        findWordInDirectory(directoryName,searchWord);
+        printDir(directoryName, "", true);
 
 
     }
@@ -55,7 +54,7 @@ public class Main {
      * @param fileName - имя файла с указанием типа файла "name.***"
      * @param dataText - текст для записи
      */
-    public static void dataToFile(File directoryName, String fileName, String dataText){
+    public static void dataToFile(File directoryName, String fileName, String dataText) {
         try {
             if (directoryName.isDirectory()) {
                 File fullFileName = new File(directoryName + "\\" + fileName);
@@ -64,10 +63,10 @@ public class Main {
                     writer.append(dataText);
                     writer.flush();
                     writer.close();
-                    System.out.println("Данные успешно записаны в файл "+ ANSI_GREEN + fileName + ANSI_RESET);
+                    System.out.println("Данные успешно записаны в файл " + ANSI_GREEN + fileName + ANSI_RESET);
                 } else
                     System.out.println("В директории " + ANSI_GREEN + directoryName + ANSI_RESET + " файл " + ANSI_RED + fileName + ANSI_RESET + " не существует.");
-            } else System.out.println("Неверно указана директория"+ ANSI_RED + directoryName + ANSI_RESET);
+            } else System.out.println("Неверно указана директория" + ANSI_RED + directoryName + ANSI_RESET);
         } catch (Exception e) {
             System.err.println(e);
         }
@@ -77,9 +76,9 @@ public class Main {
      *
      * @param directoryName - путь к директории в которой нужно создать файл в формате File "C:\\directory\\subdirectory"
      * @param fileName - имя файла с указанием типа файла "name.***"
-     * @return
+     * @return - данные из файла
      */
-    public static String dataFromFile(File directoryName, String fileName){
+    public static String dataFromFile(File directoryName, String fileName) {
         try {
             if (directoryName.isDirectory()) {
                 File fullFileName = new File(directoryName + "\\" + fileName);
@@ -88,16 +87,16 @@ public class Main {
                     int i = -1;
                     char[] buf = new char[200];
                     String dataFromFile = "";
-                    while ((i = reader.read(buf)) != -1){
-                        for (int j=0; j<i;j++){
-                            dataFromFile +=buf[j];
+                    while ((i = reader.read(buf)) != -1) {
+                        for (int j = 0; j < i; j++) {
+                            dataFromFile += buf[j];
                         }
                     }
                     reader.close();
                     return dataFromFile;
                 } else
                     System.out.println("В директории " + ANSI_GREEN + directoryName + ANSI_RESET + " файл " + ANSI_RED + fileName + ANSI_RESET + " не существует.");
-            } else System.out.println("Неверно указана директория"+ ANSI_RED + directoryName + ANSI_RESET);
+            } else System.out.println("Неверно указана директория" + ANSI_RED + directoryName + ANSI_RESET);
         } catch (Exception e) {
             System.err.println(e);
         }
@@ -111,7 +110,7 @@ public class Main {
      * @param fileName2 - имя Второго файла для извлечения данных с указанием типа файла "name.***"
      * @param newFileName - имя Третьего файла в который будут перенесены данные
      */
-    public static void mergeFiles(File directoryName, String fileName1, String fileName2, String newFileName){
+    public static void mergeFiles(File directoryName, String fileName1, String fileName2, String newFileName) {
         try {
             if (directoryName.isDirectory()) {
                 File fullFileName1 = new File(directoryName + "\\" + fileName1);
@@ -120,9 +119,11 @@ public class Main {
                     if (fullFileName2.exists()) {
                         newFile(directoryName, newFileName);
                         dataToFile(directoryName, newFileName, dataFromFile(directoryName, fileName1) + dataFromFile(directoryName, fileName2));
-                    } else System.out.println("В директории 2" + ANSI_GREEN + directoryName + ANSI_RESET + " файл " + ANSI_RED + fileName2 + ANSI_RESET + " не существует.");
-                } else System.out.println("В директории 1" + ANSI_GREEN + directoryName + ANSI_RESET + " файл " + ANSI_RED + fileName1 + ANSI_RESET + " не существует.");
-            } else System.out.println("Неверно указана директория"+ ANSI_RED + directoryName + ANSI_RESET);
+                    } else
+                        System.out.println("В директории 2" + ANSI_GREEN + directoryName + ANSI_RESET + " файл " + ANSI_RED + fileName2 + ANSI_RESET + " не существует.");
+                } else
+                    System.out.println("В директории 1" + ANSI_GREEN + directoryName + ANSI_RESET + " файл " + ANSI_RED + fileName1 + ANSI_RESET + " не существует.");
+            } else System.out.println("Неверно указана директория" + ANSI_RED + directoryName + ANSI_RESET);
         } catch (Exception e) {
             System.err.println(e);
         }
@@ -134,7 +135,7 @@ public class Main {
      * @param fileName - имя файла для поиска слова с указанием типа файла "name.***"
      * @param searchWord - искомое слово
      */
-    public static void findWordInFile(File directoryName, String fileName, String searchWord){
+    public static void findWordInFile(File directoryName, String fileName, String searchWord) {
         try {
             if (directoryName.isDirectory()) {
                 File fullFileName = new File(directoryName + "\\" + fileName);
@@ -143,15 +144,19 @@ public class Main {
                     int i = -1;
                     char[] buf = new char[2000];
                     String dataFromFile = "";
-                    while ((i = reader.read(buf)) != -1){
-                        for (int j=0; j<i;j++){ dataFromFile +=buf[j];}
+                    while ((i = reader.read(buf)) != -1) {
+                        for (int j = 0; j < i; j++) {
+                            dataFromFile += buf[j];
+                        }
                     }
                     reader.close();
-                    if (dataFromFile.contains(searchWord)) System.out.println("В файле " + ANSI_GREEN + fileName + ANSI_RESET + " есть слово " + ANSI_GREEN + searchWord + ANSI_RESET);
-                    else System.out.println("В файле " + ANSI_GREEN + fileName + ANSI_RESET + " нет слова " + ANSI_RED + searchWord + ANSI_RESET);
+                    if (dataFromFile.contains(searchWord))
+                        System.out.println("В файле " + ANSI_GREEN + fileName + ANSI_RESET + " есть слово " + ANSI_GREEN + searchWord + ANSI_RESET);
+                    else
+                        System.out.println("В файле " + ANSI_GREEN + fileName + ANSI_RESET + " нет слова " + ANSI_RED + searchWord + ANSI_RESET);
                 } else
                     System.out.println("В директории " + ANSI_GREEN + directoryName + ANSI_RESET + " файл " + ANSI_RED + fileName + ANSI_RESET + " не существует.");
-            } else System.out.println("Неверно указана директория"+ ANSI_RED + directoryName + ANSI_RESET);
+            } else System.out.println("Неверно указана директория" + ANSI_RED + directoryName + ANSI_RESET);
         } catch (Exception e) {
             System.err.println(e);
         }
@@ -162,14 +167,14 @@ public class Main {
      * @param directoryName - путь к директории в которой нужно создать файл в формате File "C:\\directory\\subdirectory"
      * @param searchWord - искомое слово
      */
-    public static void findWordInDirectory(File directoryName, String searchWord){
+    public static void findWordInDirectory(File directoryName, String searchWord) {
         try {
             if (directoryName.isDirectory()) {
                 File[] files = directoryName.listFiles();
                 for (File file : files) {
-                    if (file.isFile()) findWordInFile(directoryName,file.toString().substring(directoryName.toString().length()+1), searchWord);
+                    if (file.isFile()) findWordInFile(directoryName, file.getName(), searchWord);
                 }
-            } else System.out.println("Неверно указана директория"+ ANSI_RED + directoryName + ANSI_RESET);
+            } else System.out.println("Неверно указана директория" + ANSI_RED + directoryName + ANSI_RESET);
         } catch (Exception e) {
             System.err.println(e);
         }
@@ -181,30 +186,37 @@ public class Main {
      * @param indent - символ дерева. По умолчанию ""
      * @param lastDirectory - Промежуточная или закрывающая для отрисовки
      */
-    static void printDir(File directoryName, String indent, boolean lastDirectory){
+    static void printDir(File directoryName, String indent, boolean lastDirectory) {
         System.out.print(indent);
-        if (lastDirectory){
+        if (lastDirectory) {
             System.out.print("└─");
             indent += "  ";
-        }
-        else {
+        } else {
             System.out.print("├─");
             indent += "│ ";
         }
         System.out.println(directoryName.getName());
-        File[] files = directoryName.listFiles();
-        int subDirTotal = 0;
-        for (File file : files) {
-            if (file.isDirectory()){
-                subDirTotal++;
-            }
-        }
+        if (directoryName.isDirectory()) {
+            File[] files = directoryName.listFiles();
 
-        int subDirCounter = 0;
-        for (int i = 0; i < files.length; i++){
-            if (files[i].isDirectory()){
-                subDirCounter++;
-                printDir(files[i], indent, subDirTotal == subDirCounter);
+            int subDirTotal = 0;
+            int fileTotal = 0;
+            for (File file : files) {
+                if (file.isDirectory()) {
+                    subDirTotal++;
+                } else fileTotal++;
+            }
+
+            int subDirCounter = 0;
+            int filesCounter = 0;
+            for (int i = 0; i < files.length; i++) {
+                if (files[i].isDirectory()) {
+                    subDirCounter++;
+                    printDir(files[i], indent, subDirTotal+fileTotal == subDirCounter);
+                } else {
+                    filesCounter++;
+                    printDir(files[i], indent, fileTotal == filesCounter);
+                }
             }
         }
     }
